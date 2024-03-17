@@ -7,5 +7,5 @@ import com.ui.assignment.uiautomation.utils.BrowserHelper;
 public abstract class CucumberStepDefinition {
 
 	@Autowired
-BrowserHelper browserHelper;
+	BrowserHelper browserHelper;
 }

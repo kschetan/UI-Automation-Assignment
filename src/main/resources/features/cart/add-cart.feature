@@ -2,13 +2,13 @@
 Feature: Adding items to cart
 
   Background:
-    Given I am on "https://amazon.in" page
+    Given I am on amazon home page
 
   @sanity
   Scenario Outline: Adding a "<item-name>" into Cart and verifying the sub total 
     Given I Search for an item "<item-name>" and press enter
     When I Select the "<item-order>" item from the result page
-    And I navigate to the product page and capture the product price 
+    And I navigate to the product page and capture the "<item-name>" product price 
     And I add the item to the cart by clicking on Add to Cart button
     And I open the Cart by clicking the top-right cart icon
     Then I validate the sub total amount from cart with "<item-name>" product page price
@@ -16,7 +16,7 @@ Feature: Adding items to cart
     Examples: 
       | item-name |item-order|
       | Monitor   |1    |
-    #  | Laptop    |2    |
+      | Laptop    |2    |
 
   #@smoke
   #Scenario Outline: Adding two items into Cart and verifying the sub total

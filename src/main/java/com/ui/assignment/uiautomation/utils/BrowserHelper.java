@@ -2,25 +2,35 @@ package com.ui.assignment.uiautomation.utils;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-@Getter
-@Setter
-public interface BrowserHelper {
+//@Getter
+//@Setter
+public class BrowserHelper {
 	
-	@Autowired(required = true)
-	public default WebDriver createChromDriver() {
-		
-		return new ChromeDriver();
+	/*
+	 * @Autowired(required = true) public WebDriver createChromDriver() {
+	 * 
+	 * return new ChromeDriver(); }
+	 */
+	public WebDriver driver;
+	
+	public WebDriver getBrowser(String browser) {
+		switch (browser) {
+		case "chrome": {
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+		}
+
+		case "firefox": {
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver();
+		}
+			driver.manage().window().maximize();
+		}
+		return driver;
 	}
-	
-
 }

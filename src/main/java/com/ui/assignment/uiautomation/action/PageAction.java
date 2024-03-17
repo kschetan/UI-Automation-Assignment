@@ -1,90 +1,75 @@
 package com.ui.assignment.uiautomation.action;
 
-import java.awt.RenderingHints.Key;
-import java.time.Duration;
-import java.util.ArrayList;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.devtools.idealized.Javascript;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ui.assignment.uiautomation.utils.WorldObject;
+import com.ui.assignment.uiautomation.pom.CartPage;
+import com.ui.assignment.uiautomation.pom.HomePage;
+import com.ui.assignment.uiautomation.pom.ProductPage;
+import com.ui.assignment.uiautomation.utils.BrowserHelper;
+import com.ui.assignment.uiautomation.utils.CommonAction;
 
 public class PageAction {
+	
+	@Autowired
+	CommonAction commonAction;
+	
+	@Autowired
+	BrowserHelper browserHelper;
+	
+	@Autowired	
+	HomePage homePage;
+	
+	@Autowired
+	ProductPage productPage;
 
-	private static final String SEARCH_ITEM = "//*[@id='twotabsearchtextbox']";
-	private static final String PRODUCT_PAGE_PRICE = "//div[contains(@id , 'corePriceDisplay_')]//span[@class='a-price-whole']";
-	private static final String ADD_TO_CART = "//input[@id='add-to-cart-button']";
-	private static final String SUB_TOTAL_PRICE = "//span[@id='sc-subtotal-amount-buybox']//span[contains(@class, 'currency')]//..";
-	private static final String ITEM_ORDER = "//div[@*='s-search-result'][%s]";
-	private static final String CART = "//div[@id='nav-cart-count-container']";
-	private static final String CART_PRODUCT_PAGE = "//span[@id='attach-sidesheet-view-cart-button']";
+	@Autowired
+	CartPage cartPage;
+	
+	
+	/*
+	 * public void navigateHomePage(String url, String browserType) {
+	 * browserHelper.getBrowser(browserType); commonAction.launchWebUrl(url); }
+	 * 
+	 * public void searchItem(String item, String browserType) { // HomePage
+	 * homePage = new HomePage(driver);
+	 * pomService.getHomePage(browserHelper.getBrowser(browserType));
+	 * homePage.searchItem(item); assertThat(homePage.searchItem(item)).
+	 * withFailMessage("Lists of < %s > is not displyed in search result", item)
+	 * .isTrue(); }
+	 */
 
-	public void searchItem(WebDriver driver, String item) {
 
-		driver.findElement(By.xpath(SEARCH_ITEM)).click();
-		driver.findElement(By.xpath(SEARCH_ITEM)).sendKeys(item);
-		driver.findElement(By.xpath(SEARCH_ITEM)).sendKeys(Keys.ENTER);
-
+	
+	public void navigateHomePage(String url, String browserType) {
+		browserHelper.getBrowser(browserType);
+		commonAction.launchWebUrl(url);
+	}
+	
+	public void searchItem( String item) {
+		//HomePage homePage = new HomePage(driver);
+		homePage.searchItem(item);
+		assertThat(homePage.searchItem(item)).withFailMessage("Lists of < %s > is not displyed in search result", item).isTrue();
 	}
 
-	public void selectOrderItem(WebDriver driver, int orderItem, String itemPrice) throws Exception {
-//		driver.
-		Actions action = new Actions(driver);
-
-//		action.scrollToElement(driver.findElement(By.xpath(String.format(ITEM_ORDER, orderItem))));
-		driver.findElement(By.xpath(String.format(ITEM_ORDER, orderItem))).click();
-		Thread.sleep(20000);
-		getProductPrice(driver, itemPrice);
-		addToCart(driver);
-		navigateToCart(driver);
-
-		if (Double.parseDouble(getSubTotal(driver)) == Double.parseDouble(WorldObject.world.get(itemPrice))) {
-			System.out.println("Price are same");
-		}
+	public void selectOrderItem(int orderItem) {	
+		homePage.selectSearchProducts(orderItem);
 	}
+	
+	public void getProductPrice(String itemPrice) {
 
-	public void addToCart(WebDriver driver) throws Exception {
-//		Actions action = new Actions(driver);
-//		action.scrollToElement(driver.findElement(By.xpath(ADD_TO_CART)));
-		JavascriptExecutor je = (JavascriptExecutor) driver;
-		je.executeScript("window.scrollBy(0,-700);", "");
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(8000));
-		wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(ADD_TO_CART))));
-		driver.findElement(By.xpath(ADD_TO_CART)).click();
-		Thread.sleep(8000);
+		productPage.getProductPrice(itemPrice);
+		assertThat(productPage.getProductPrice(itemPrice)).withFailMessage("Product price is not currectly captured")
+				.isTrue();
 	}
-
-	public void getProductPrice(WebDriver driver, String itemPrice) {
-		System.out.println(driver.getWindowHandles());
-		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
-		System.out.println("Product price is ::::::::::::::::::::::::::::"
-				+ driver.findElement(By.xpath(PRODUCT_PAGE_PRICE)).getText());
-		WorldObject.world.put(itemPrice, driver.findElement(By.xpath(PRODUCT_PAGE_PRICE)).getText().replaceAll(",", ""));
-
-
+	
+	public void addItemToCart() {	
+		productPage.addToCart();
 	}
-
-	public void navigateToCart(WebDriver driver) {
-		if (driver.findElement(By.xpath(CART_PRODUCT_PAGE)).isDisplayed()) {
-			driver.findElement(By.xpath(CART_PRODUCT_PAGE)).click();
-		} else {
-			driver.findElement(By.xpath(CART)).click();
-		}
+	
+	public void clickOnCart()
+	{
+		cartPage.clickOnCart();
 	}
-
-	public String getSubTotal(WebDriver driver) {
-		System.out.println(
-				"subTotalPrice::::::::::::::::::::::" + driver.findElement(By.xpath(SUB_TOTAL_PRICE)).getText());
-		driver.findElement(By.xpath(SUB_TOTAL_PRICE));
-		return driver.findElement(By.xpath(SUB_TOTAL_PRICE)).getText().replaceAll(",", "");
-	}
-
 }

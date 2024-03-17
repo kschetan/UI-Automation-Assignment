@@ -7,16 +7,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.ui.assignment.uiautomation.utils.BrowserHelper;
-
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class UIAutomationConfiguration {
 	
-@Bean
-@Autowired(required = true)
-public ChromeDriver getBrowserHelper() {
-	return getBrowserHelper();
-}
+	
+	@Bean
+
+	@Autowired(required = true)
+	public ChromeDriver getBrowserHelper() {
+		return getBrowserHelper();
+	}
+	 
 }
