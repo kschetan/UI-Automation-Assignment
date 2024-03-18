@@ -1,31 +1,30 @@
 package com.ui.assignment.uiautomation.action;
 
 import static org.assertj.core.api.Assertions.assertThat;
+//import  org.junit.Assert.assertThat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ui.assignment.uiautomation.pom.CartPage;
 import com.ui.assignment.uiautomation.pom.HomePage;
+import com.ui.assignment.uiautomation.pom.InitPages;
 import com.ui.assignment.uiautomation.pom.ProductPage;
-import com.ui.assignment.uiautomation.utils.BrowserHelper;
-import com.ui.assignment.uiautomation.utils.CommonAction;
+import com.ui.assignment.uiautomation.utils.TestBase;
+import com.ui.assignment.uiautomation.utils.CommonUtils;
 
-public class PageAction {
-	
-	@Autowired
-	CommonAction commonAction;
-	
-	@Autowired
-	BrowserHelper browserHelper;
-	
-	@Autowired	
-	HomePage homePage;
-	
-	@Autowired
-	ProductPage productPage;
-
-	@Autowired
-	CartPage cartPage;
+public class PageAction extends InitPages{
+	CommonUtils cUtils= new CommonUtils();	
+	/*
+	 * @Autowired CommonUtils commonAction;
+	 * 
+	 * @Autowired TestBase browserHelper;
+	 * 
+	 * @Autowired HomePage homePage;
+	 * 
+	 * @Autowired ProductPage productPage;
+	 * 
+	 * @Autowired CartPage cartPage;
+	 */
 	
 	
 	/*
@@ -42,9 +41,10 @@ public class PageAction {
 
 
 	
-	public void navigateHomePage(String url, String browserType) {
-		browserHelper.getBrowser(browserType);
-		commonAction.launchWebUrl(url);
+	public void navigateHomePage() {
+	//	cUtils.driver.get(System.getProperty("https://amazon.in"));
+		
+		cUtils.driver.get("https://amazon.in");
 	}
 	
 	public void searchItem( String item) {

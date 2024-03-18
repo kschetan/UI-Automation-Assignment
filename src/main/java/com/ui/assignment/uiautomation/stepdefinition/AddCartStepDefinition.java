@@ -1,11 +1,9 @@
 package com.ui.assignment.uiautomation.stepdefinition;
 
-import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.ui.assignment.uiautomation.action.PageAction;
-import com.ui.assignment.uiautomation.utils.BrowserHelper;
 import com.ui.assignment.uiautomation.validation.PageValidation;
 
 import io.cucumber.java8.En;
@@ -13,26 +11,25 @@ import io.cucumber.java8.En;
 public class AddCartStepDefinition extends CucumberStepDefinition implements En {
 	
 	// WebDriver driver = browserHelper.createChromDriver();
-	// PageAction action = new PageAction();
+	 PageAction pageAction = new PageAction();
+	 PageValidation pageValidation = new PageValidation();
 	
 	
-	@Value("${url}")
-	private String url;
-	
-	@Value("${browserType}")
-	private String browserType;
-	
-	@Autowired
-	PageAction pageAction;
-	
-	@Autowired
-	PageValidation pageValidation;
+	/*
+	 * @Value("${url}") private String url;
+	 * 
+	 * @Value("${browserType}") private String browserType;
+	 * 
+	 * @Autowired PageAction pageAction;
+	 * 
+	 * @Autowired PageValidation pageValidation;
+	 */
 	
 	public AddCartStepDefinition() {
 		
 		
 		Given("I am on amazon home page", () -> {
-			pageAction.navigateHomePage(browserType, url);
+			pageAction.navigateHomePage();
 
 		});
 		 		

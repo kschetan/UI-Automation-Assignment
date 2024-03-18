@@ -1,16 +1,18 @@
 package com.ui.assignment.uiautomation.pom;
 
 import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
-import com.ui.assignment.uiautomation.utils.CommonAction;
+import com.ui.assignment.uiautomation.utils.CommonUtils;
 import com.ui.assignment.uiautomation.utils.WorldObject;
 
-public class ProductPage extends CommonAction{
+@Component
+public class ProductPage extends CommonUtils{
 	
-	public ProductPage(WebDriver driver) {
-		super(driver);
-		// TODO Auto-generated constructor stub
-	}
+	/*
+	 * public ProductPage(WebDriver driver) { super(driver); // TODO Auto-generated
+	 * constructor stub }
+	 */
 
 	private static final String PRODUCT_PAGE_PRICE = "//div[contains(@id , 'corePriceDisplay_')]//span[@class='a-price-whole']";
 	private static final String ADD_TO_CART = "//input[@id='add-to-cart-button']";
@@ -25,7 +27,7 @@ public class ProductPage extends CommonAction{
 	
 	public void addToCart() {
 		scrollToView();
-		waitForElementToBeVisible(getWebElement("xpath", ADD_TO_CART), 20);
+		//waitForElementToBeVisible(getWebElement("xpath", ADD_TO_CART), 20);
 		getWebElement("xpath", ADD_TO_CART).click();
 	}
 

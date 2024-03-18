@@ -1,14 +1,15 @@
 package com.ui.assignment.uiautomation.pom;
 
-import org.openqa.selenium.WebDriver;
+import org.springframework.stereotype.Component;
 
-import com.ui.assignment.uiautomation.utils.CommonAction;
+import com.ui.assignment.uiautomation.utils.CommonUtils;
 
-public class CartPage extends CommonAction {
+@Component
+public class CartPage extends CommonUtils {
 	
-	public CartPage(WebDriver driver) {
-		super(driver);
-	}
+	/*
+	 * public CartPage(WebDriver driver) { super(driver); }
+	 */
 
 	private static final String CART = "//div[@id='nav-cart-count-container']";
 	private static final String SUB_TOTAL_PRICE = "//span[@id='sc-subtotal-amount-buybox']//span[contains(@class, 'currency')]//..";
